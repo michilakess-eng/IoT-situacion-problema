@@ -10,12 +10,12 @@ Aún falta agregar un counter que pueda determinar cuántas veces se ha ingresad
 #include <MFRC522.h>
 #include <Servo.h>
 
-#define Servo_PIN 2
-#define RST_PIN 4
-#define MISO_PIN 21
-#define MOSI_PIN 19
-#define SCK_PIN 23
-#define SDA_PIN 18
+#define Servo_PIN 1
+#define RST_PIN 3
+#define MISO_PIN 6
+#define MOSI_PIN 7
+#define SCK_PIN 5
+#define SDA_PIN 8
 
 //cooldown, pausa
 unsigned long prevMillis = 0; 
