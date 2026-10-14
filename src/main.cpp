@@ -12,10 +12,10 @@ Aún falta agregar un counter que pueda determinar cuántas veces se ha ingresad
 
 #define Servo_PIN 2
 #define RST_PIN 4
-#define MISO_PIN 5
-#define MOSI_PIN 18
-#define SCK_PIN 19
-#define SDA_PIN 21
+#define MISO_PIN 21
+#define MOSI_PIN 19
+#define SCK_PIN 23
+#define SDA_PIN 18
 
 //cooldown, pausa
 unsigned long prevMillis = 0; 
