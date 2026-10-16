@@ -33,6 +33,9 @@ const char ntpServer[]= "pool.ntp.org";
 const long gmtOffset_sec= -21600; // timezone CST
 const int daylightOffset_sec= 0;
 
+//ID_nodo, o paradero
+const int nodo_id= 1;
+
 //para después, hardcoded access
 String Id_1= " YOUR HEX ID 01";
 String Id_2= " YOUR HEX ID 02";
@@ -46,12 +49,9 @@ String Id_3= " YOUR HEX ID 03";
 unsigned long prevMillis= 0; 
 const unsigned long cooldown= 1000;
 
-unsigned long servoH= 0; 
+unsigned long servoMillis= 0; 
 const unsigned long pausaServo= 3000;
 bool servoActive= false;
-
-//delete later
-int cont= 0;
 
 //libraries 
 MFRC522 rfid(SDA_PIN, RST_PIN);
@@ -63,7 +63,7 @@ void setup() {
   Serial.begin(115200);
   SPI.begin();
   rfid.PCD_Init();
-  servo.attach(Servo_PIN);
+  servo.attach(Servo_PIN, 500, 2500);
   servo.write(angle);
   
   Serial.println();
@@ -96,9 +96,7 @@ void loop() {
         }
         tagID.toUpperCase();
 
-        if(tagID== Id_1 || tagID== Id_2 || tagID== Id_3){
-          
-          //1, time info
+         //1, time info
           time_t now = time(nullptr);
           struct tm* timeinfo= localtime(&now);
           char timeStringBuff[50];
@@ -108,14 +106,11 @@ void loop() {
           } else {
             strcpy(timeStringBuff, "Sin hora??"); //si falla por alguna razón el ntp
           }
-
           prevMillis= rnMillis; 
-          
-          //3, cont
-          cont++;
 
+        if(tagID== Id_1 || tagID== Id_2 || tagID== Id_3){
           //string for Blynk. Será enviado de misma o similar manera como JSON al databse.
-          String Data= "{\"Fecha y hora\":\"" + String(timeStringBuff) + "\", \"ID\":\"" + tagID + "\", \"Contador\":\"" + String(cont) + "\"}";
+          String Data= "{\"Fecha y hora\":\"" + String(timeStringBuff) + "\", \"ID\":\"" + tagID + "\", \"nodo_id\":" + String(nodo_id) + ", \"estado_acceso\":\"Autorizado\"}";
           
           //string a Blynk
           Blynk.virtualWrite(V2, Data);
@@ -124,17 +119,19 @@ void loop() {
             angle= 180;
           }
           servo.write(angle);
-          servoH= rnMillis;
+          servoMillis= rnMillis;
           servoActive= true;
-
+        }else{
+          String Data= "{\"Fecha y hora\":\"" + String(timeStringBuff) + "\", \"ID\":\"" + tagID + "\", \"nodo_id\":" + String(nodo_id) + ", \"estado_acceso\":\"Denegado\"}";
+          Blynk.virtualWrite(V2, Data);
+        }
           rfid.PICC_HaltA(); 
           rfid.PCD_StopCrypto1();
-        }
       }
     }
   }
   
-  if(servoActive && (rnMillis - servoH >= pausaServo)){
+  if(servoActive && (rnMillis - servoMillis >= pausaServo)){
     angle = 0;
     servo.write(angle);
     servoActive = false;
