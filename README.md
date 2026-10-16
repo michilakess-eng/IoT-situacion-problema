@@ -10,7 +10,7 @@ Un proyecto IoT para controlar y registrar el acceso a paraderos de transporte p
 - NodeMCU ESP8266
 - Lector RFID MFRC522 (NFC)
 - Servomotor de 180 grados
-- Fuente de alimentación externa (5.3V)
+- Fuente de alimentación externa (5.1V)
 
 ## Pinout y Conexiones
 
@@ -29,10 +29,10 @@ Un proyecto IoT para controlar y registrar el acceso a paraderos de transporte p
 | ESP8266 Pin | Servomotor | Función |
 | :--- | :--- | :--- |
 | **D2** | Señal (Naranja/Blanco) | Señal PWM para controlar el ángulo |
-| **VIN / 5V** | VCC (Rojo) | Alimentación del motor (desde la fuente de 5.3V) |
-| **GND** | GND (Café/Negro) | Tierra común compartida |
+| **N/A** | VCC (Rojo) | Alimentación del motor (directo desde el riel de 5.1V de la protoboard) |
+| **GND** | GND (Café/Negro) | Tierra común compartida en la protoboard |
 
-*Nota sobre alimentación:* El servomotor se alimenta directamente desde el cargador de 5.3V a través del pin VIN para evitar quemar el regulador interno del ESP8266.
+*Nota sobre alimentación:* El servomotor se alimenta directamente desde el riel de 5.1V de la protoboard. A su vez, el pin VIN del ESP8266 recibe 5.1V desde la protoboard, lo que permite que el regulador interno del NodeMCU alimente el lector NFC a través de su pin de 3.3V.
 
 ### Pines Virtuales de Blynk
 | Pin Virtual | Widget de App | Función |
