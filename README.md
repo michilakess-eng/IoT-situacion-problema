@@ -1,12 +1,15 @@
 # Smart Bus Stop IoT 
 
+![C++](https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)
+![NodeMCU](https://img.shields.io/badge/ESP8266-000000?style=for-the-badge&logo=espressif&logoColor=white)
+![Arduino IDE](https://img.shields.io/badge/Arduino_IDE-00979D?style=for-the-badge&logo=arduino&logoColor=white)
+
 Un proyecto IoT para controlar y registrar el acceso a paraderos de transporte público utilizando un NodeMCU ESP8266. El sistema lee tarjetas RFID/NFC, verifica la autorización mediante un código duro (hardcoded), y acciona un servomotor para permitir el paso. Todos los accesos, tanto autorizados como denegados, se registran con su respectiva marca de tiempo obtenida vía NTP y se envían como un payload JSON al dashboard de Blynk y a la base de datos backend.
 
 ## Hardware
 - NodeMCU ESP8266
 - Lector RFID MFRC522 (NFC)
 - Servomotor de 180 grados
-- Capacitor electrolítico de 220µF/25V (para supresión de ruido y caídas de tensión)
 - Fuente de alimentación externa (5.3V)
 
 ## Pinout y Conexiones
@@ -29,7 +32,7 @@ Un proyecto IoT para controlar y registrar el acceso a paraderos de transporte p
 | **VIN / 5V** | VCC (Rojo) | Alimentación del motor (desde la fuente de 5.3V) |
 | **GND** | GND (Café/Negro) | Tierra común compartida |
 
-*Nota sobre alimentación:* El servomotor se alimenta directamente desde el cargador de 5.3V a través del pin VIN para evitar quemar el regulador interno del ESP8266. Se instaló un capacitor de 220µF/25V en paralelo entre los rieles de 5.3V y GND para absorber los picos de corriente del motor.
+*Nota sobre alimentación:* El servomotor se alimenta directamente desde el cargador de 5.3V a través del pin VIN para evitar quemar el regulador interno del ESP8266.
 
 ### Pines Virtuales de Blynk
 | Pin Virtual | Widget de App | Función |
