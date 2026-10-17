@@ -1,5 +1,7 @@
-CREATE DATABASE IF NOT EXISTS safewait_db 
-DEFAULT CHARACTER SET utf8mb4 
+DROP DATABASE IF EXISTS safewait_db;
+
+CREATE DATABASE safewait_db
+DEFAULT CHARACTER SET utf8mb4
 COLLATE utf8mb4_unicode_ci;
 
 USE safewait_db;
@@ -8,12 +10,11 @@ USE safewait_db;
 CREATE TABLE rutas (
     ruta_id INT AUTO_INCREMENT NOT NULL,
     nombre_ruta VARCHAR(50) NOT NULL,
-    color VARCHAR(30) NOT NULL,
+    color VARCHAR(30) NOT NULL UNIQUE,
     valor_r SMALLINT NULL CHECK (valor_r BETWEEN 0 AND 255),
     valor_g SMALLINT NULL CHECK (valor_g BETWEEN 0 AND 255),
     valor_b SMALLINT NULL CHECK (valor_b BETWEEN 0 AND 255),
-    CONSTRAINT rutas_pk PRIMARY KEY (ruta_id),
-    CONSTRAINT uq_rutas_color UNIQUE (color)
+    CONSTRAINT rutas_pk PRIMARY KEY (ruta_id)
 ) ENGINE=InnoDB;
 
 -- informacion de los paraderos
@@ -39,9 +40,8 @@ CREATE TABLE usuarios (
     usuario_id INT AUTO_INCREMENT NOT NULL,
     nombre VARCHAR(50) NOT NULL,
     apellido VARCHAR(50) NOT NULL,
-    categoria_vulnerabilidad VARCHAR(20) NOT NULL DEFAULT 'general',
-    CONSTRAINT usuarios_pk PRIMARY KEY (usuario_id),
-    CONSTRAINT ck_usuarios_categoria CHECK (UPPER(categoria_vulnerabilidad) IN ('MUJER', 'ADULTO_MAYOR', 'NINO', 'GENERAL'))
+    categoria_vulnerabilidad VARCHAR(20) NOT NULL DEFAULT 'general' CHECK (UPPER(categoria_vulnerabilidad) IN ('MUJER', 'ADULTO_MAYOR', 'NINO', 'GENERAL')),
+    CONSTRAINT usuarios_pk PRIMARY KEY (usuario_id)
 ) ENGINE=InnoDB;
 
 -- tarjetas nfc dadas de alta
@@ -59,12 +59,11 @@ CREATE TABLE nodos_iot (
     nodo_id INT AUTO_INCREMENT NOT NULL,
     paradero_id INT NOT NULL,
     nombre_nodo VARCHAR(60) NOT NULL,
-    tipo_nodo VARCHAR(20) NOT NULL,
+    tipo_nodo VARCHAR(20) NOT NULL CHECK (UPPER(tipo_nodo) IN ('ILUMINACION', 'SOS', 'ACCESO', 'RUTA')),
     sensor VARCHAR(50) NULL,
     actuador VARCHAR(50) NULL,
     CONSTRAINT nodos_iot_pk PRIMARY KEY (nodo_id),
     CONSTRAINT uq_nodos_paradero_tipo UNIQUE (paradero_id, tipo_nodo),
-    CONSTRAINT ck_nodos_tipo CHECK (UPPER(tipo_nodo) IN ('ILUMINACION', 'SOS', 'ACCESO', 'RUTA')),
     CONSTRAINT fk_nodos_paradero FOREIGN KEY (paradero_id) REFERENCES paraderos(paradero_id) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
