@@ -48,6 +48,9 @@ El sistema evalúa el control de acceso de la siguiente manera:
 5. **Acción Denegada:** Si el ID no coincide, la puerta se mantiene bloqueada, pero se construye un JSON con estado "Denegado" para registrar el intento fallido de vulnerar el acceso.
 6. **Transmisión:** En ambos casos, el payload JSON se sube a Blynk vía el Pin Virtual `V2`, el cual está diseñado para ser interceptado por la base de datos MySQL (tabla `registros_acceso` mapeada a `nodo_id = 1`).
 
+## Base de Datos
+El esquema relacional del proyecto está diseñado en MySQL. El archivo `safewait_db.sql` se encuentra disponible dentro de la carpeta `/database` del repositorio. Este script genera la estructura normalizada necesaria para almacenar registros de telemetría (iluminación, estado de paraderos) y los historiales de acceso de las tarjetas RFID.
+
 ## Notas para Configuración
 1. Sustituye las credenciales de Wi-Fi (`ssid` y `password`) y los datos de Blynk (`BLYNK_TEMPLATE_ID`, `BLYNK_TEMPLATE_NAME`, `BLYNK_AUTH_TOKEN`) en el código.
 2. Modifica los strings `Id_1`, `Id_2`, `Id_3` con los bytes hexadecimales de las tarjetas que deseas autorizar, conservando el espacio en blanco al inicio.
