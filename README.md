@@ -1,4 +1,4 @@
-# Smart Bus Stop IoT 
+# SafeWait IoT 
 
 ![C++](https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)
 ![NodeMCU](https://img.shields.io/badge/ESP8266-000000?style=for-the-badge&logo=espressif&logoColor=white)
